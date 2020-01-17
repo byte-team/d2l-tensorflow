@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="08316468-55da-4619-a434-feb61b47fcc9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/d2l-tensorflow.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/d2l-tensorflow.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="08316468-55da-4619-a434-feb61b47fcc9" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +128,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578656550729</updated>
-      <workItem from="1579071651778" duration="17262000" />
+      <workItem from="1579071651778" duration="17897000" />
     </task>
     <servers />
   </component>
