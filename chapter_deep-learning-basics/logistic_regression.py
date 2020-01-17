@@ -4,10 +4,7 @@
 import numpy as np
 import tensorflow as tf
 from utils import obt_shape
-
-
-def sigmoid(x):
-    return tf.divide(1, 1 + tf.exp(-x))
+from activators import SigmoidActivator
 
 
 def construct_loss(pred, y, method='log_loss'):
@@ -56,7 +53,7 @@ def logistic_regression_test():
             print(sess.run(cur_loss))
         pred = tf.matmul(x, tf.transpose(w))
         pred = tf.add(pred, b)
-        pred = sigmoid(pred)
+        pred = SigmoidActivator.forward(pred)
         cur_loss = construct_loss(pred, y)
         update_w = tf.reduce_sum(tf.multiply(tf.subtract(pred, y), x), axis=0)
         update_w = tf.expand_dims(update_w, 0)
