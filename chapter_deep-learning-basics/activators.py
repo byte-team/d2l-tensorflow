@@ -34,3 +34,13 @@ class TanhActivator(object):
     @staticmethod
     def backward(y):
         return tf.subtract(1, tf.pow(y, 2))
+
+
+class IdentityActivator(object):
+    @staticmethod
+    def forward(weighted_input):
+        return weighted_input
+
+    @staticmethod
+    def backward(output):
+        return 1
