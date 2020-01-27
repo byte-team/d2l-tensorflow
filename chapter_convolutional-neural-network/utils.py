@@ -103,16 +103,16 @@ def batch_norm_fully_connected(x, in_num, out_num, name, relu=True, is_training=
         MOVING_AVG_DECAY = 0.99
 
         def batch_norm_training():
-            batch_mean, batch_var = tf.nn.moments(x, [0])
+            batch_mean, batch_var = tf.nn.moments(act, [0])
             # 计算mean和var的滑动平均值
             train_mean = tf.assign(shadow_mean, MOVING_AVG_DECAY * shadow_mean + (1 - MOVING_AVG_DECAY) * batch_mean)
-            train_var = tf.assgin(shadow_var, MOVING_AVG_DECAY * shadow_var + (1 - MOVING_AVG_DECAY) * batch_var)
+            train_var = tf.assign(shadow_var, MOVING_AVG_DECAY * shadow_var + (1 - MOVING_AVG_DECAY) * batch_var)
             # 控制mean和var的滑动平均值计算完成后才能计算batch normalization
             with tf.control_dependencies([train_mean, train_var]):
-                return tf.nn.batch_normalization(x, batch_mean, batch_var, beta, gamma, EPSILON)
+                return tf.nn.batch_normalization(act, batch_mean, batch_var, beta, gamma, EPSILON)
 
         def batch_norm_inference():
-            return tf.nn.batch_normalization(x, shadow_mean, shadow_var, beta, gamma, EPSILON)
+            return tf.nn.batch_normalization(act, shadow_mean, shadow_var, beta, gamma, EPSILON)
 
         batch_normalized_output = tf.cond(is_training, batch_norm_training, batch_norm_inference)
         if relu:
@@ -150,18 +150,18 @@ def batch_norm_conv(x, filter_height, filter_width, num_filters,
 
         def batch_norm_training():
             # 此时设定通道维度在第4维度, 得到的batch_mean与batch_var为一维向量，其长度与通道数量相同
-            batch_mean, batch_var = tf.nn.moments(x, [0, 1, 2], keep_dims=False)
+            batch_mean, batch_var = tf.nn.moments(conv_result, [0, 1, 2], keep_dims=False)
             train_mean = tf.assign(shadow_mean, MOVING_AVG_DECAY * shadow_mean + (1 - MOVING_AVG_DECAY) * batch_mean)
             train_var = tf.assign(shadow_var, MOVING_AVG_DECAY * shadow_var + (1 - MOVING_AVG_DECAY) * batch_var)
 
             with tf.control_dependencies([train_mean, train_var]):
-                return tf.nn.batch_normalization(x, batch_mean, batch_var, beta, gamma, EPSILON)
+                return tf.nn.batch_normalization(conv_result, batch_mean, batch_var, beta, gamma, EPSILON)
 
         def batch_norm_inference():
-            return tf.nn.batch_normalization(x, shadow_mean, shadow_var, beta, gamma, EPSILON)
+            return tf.nn.batch_normalization(conv_result, shadow_mean, shadow_var, beta, gamma, EPSILON)
 
         batch_normalized_result = tf.cond(is_training, batch_norm_training, batch_norm_inference)
-        return tf.nn.relu(batch_normalized_result)
+        return tf.nn.relu(batch_normalized_result, name=scope.name)
 
 
 # 池化层一般包括平均池化和最大池化，常采用的方法为最大池化
